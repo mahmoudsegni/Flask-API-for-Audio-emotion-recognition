@@ -1,0 +1,24 @@
+FROM tensorflow/tensorflow
+
+RUN apt-get update -y
+
+RUN apt-get install libsndfile1 -y
+
+COPY . /app
+
+
+WORKDIR /app
+
+
+
+
+
+RUN pip install -r requires.txt
+
+EXPOSE 5000
+
+CMD [ "python", "app.py" ]
+
+
+
+

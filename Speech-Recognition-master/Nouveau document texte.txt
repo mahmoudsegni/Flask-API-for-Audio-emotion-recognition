@@ -1,0 +1,36 @@
+# Loading data from dataframe
+class DataLoader():
+  def __init__(self, path):
+    self.path = path
+  
+  def preprocessing(self,instancePath):
+    image = load_img(instancePath, target_size=(224, 224))
+    image = img_to_array(image)
+    image /= 255.0
+    image = image.reshape((image.shape[0], image.shape[1], image.shape[2]))
+    image = preprocess_input(image)
+    return image
+
+  def prepare_train_data(self):
+    X_train = []
+    y_train = []
+
+    for class_folder_name in os.listdir(self.path):
+      class_folder_path = os.path.join(self.path, class_folder_name)
+      for i in range(len(df)):
+        
+      # for img in notebook.tqdm(os.listdir(class_folder_path)):
+        imgpath =df.path[i]
+        img = self.preprocessing(imgpath)
+        X_train.append(img)
+        y_train.append(df.label[i])
+
+    X_train = np.asarray(X_train)
+    y_train = np.asarray(y_train)
+    
+    le = preprocessing.LabelEncoder()
+    y_train = le.fit_transform(y_train)
+    print(np.unique(y_train))   
+
+    print(f'X_train shape:{X_train.shape}\nY_train shape:{y_train.shape}')
+    return X_train,y_train
